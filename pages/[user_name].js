@@ -9,7 +9,7 @@ const User = () => {
 
   useEffect(()=>{
     if(user_name)
-      axios.post('http://api.syntaxprotocol.xyz/enum/getlists',{user_name})
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/enum/getlists`,{user_name})
         .then(res=>{console.log(res.data); setEnumList(res.data);})
         .catch(err=>{console.log(err)});
   },[user_name])
@@ -31,11 +31,11 @@ const User = () => {
                     </tr>
                     {enumList?.map((enumname,i)=><tr key={i}>
                                                     <td>
-                                                      {enumname.list_name}
+                                                      {enumname.list_id}
                                                     </td>
                                                     <td>
-                                                      <a href={'https://github.com/'+enumname.list_creator} target='_blank' rel="noreferrer">
-                                                        {enumname.list_creator}
+                                                      <a href={'https://github.com/'+enumname.list_created_by} target='_blank' rel="noreferrer">
+                                                        {enumname.list_created_by}
                                                       </a>
                                                     </td>
                                                   </tr>)}
