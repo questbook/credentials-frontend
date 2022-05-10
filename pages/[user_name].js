@@ -9,7 +9,7 @@ const User = () => {
 
   useEffect(()=>{
     if(user_name)
-      axios.post('http://localhost:3033/enum/getlists',{user_name})
+      axios.post('http://api.syntaxprotocol.xyz/enum/getlists',{user_name})
         .then(res=>{console.log(res.data); setEnumList(res.data);})
         .catch(err=>{console.log(err)});
   },[user_name])

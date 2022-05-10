@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   const [enumLength, setEnumLength] = useState(1);
   const [enumList, setEnumList] = useState([]);
 
-  const githubRedirectURL = 'http://localhost:3033/auth/github/callback';
+  const githubRedirectURL = 'http://api.syntaxprotocol.xyz/auth/github/callback';
   const path = '/';
 
   useEffect(()=>{
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
       'Content-Type': 'application/json',
       'Authorization': accessToken
     }
-    axios.post('http://localhost:3033/enum/create',data, {headers})
+    axios.post('http://api.syntaxprotocol.xyz/enum/create',data, {headers})
       .then(res=>{console.log(res.data)})
       .catch(err => {console.log(err)});
   }
