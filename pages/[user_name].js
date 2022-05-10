@@ -23,7 +23,25 @@ const User = () => {
         <div style={{margin:20}}>
             <h3>Lists you
                 &apos;re part of:</h3>
-            {enumList?.map((enumname,i)=><div key={i}>{enumname.list_name}</div>)}
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>List Name</th>
+                      <th>Creator</th>
+                    </tr>
+                    {enumList?.map((enumname,i)=><tr key={i}>
+                                                    <td>
+                                                      {enumname.list_name}
+                                                    </td>
+                                                    <td>
+                                                      <a href={'https://github.com/'+enumname.list_creator} target='_blank' rel="noreferrer">
+                                                        {enumname.list_creator}
+                                                      </a>
+                                                    </td>
+                                                  </tr>)}
+                  </tbody>
+                </table>
+            
         </div>
     </div>
     );
