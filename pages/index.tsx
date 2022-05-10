@@ -30,7 +30,7 @@ const Home: NextPage = () => {
       'Authorization': accessToken
     }
     axios.post('http://api.syntaxprotocol.xyz/enum/create',data, {headers})
-      .then(res=>{console.log(res.data)})
+      .then(res=>{console.log(res.data); alert("list created!")})
       .catch(err => {console.log(err)});
   }
 
