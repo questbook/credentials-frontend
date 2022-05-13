@@ -7,9 +7,6 @@ const Home: NextPage = () => {
 
   const [accessToken, setAccessToken] = useState('');
   const [enumName, setEnumName] = useState('');
-  const [enumLength, setEnumLength] = useState(1);
-  const [enumList, setEnumList] = useState([]);
-
   const [query, setQuery] = useState('');
 
   const githubRedirectURL = `${process.env.NEXT_PUBLIC_API_URL}/github/auth/callback`;
@@ -26,7 +23,6 @@ const Home: NextPage = () => {
   const onSubmitClicked = () =>{
     const data = {
        enumName,
-      //  enumList,
       query
     };
     const headers = {
@@ -36,46 +32,6 @@ const Home: NextPage = () => {
     axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create`,data, {headers})
       .then(res=>{console.log(res.data); alert("list created!")})
       .catch(err => {console.log(err)});
-  }
-
-  const renderEnums = () =>{
-    let arr = [];
-    arr.push(<tr key={0}>
-      <th>Repo URL</th>
-      <th>File extension</th>
-    </tr> );
-
-    for(let i=0; i<enumLength; i++){
-      arr.push(
-        <tr key={i+1}>
-          <th>
-            <input 
-              placeholder='Link to Repository' 
-              onChange={(evt)=>{
-                  let arr = [...enumList];
-                  arr[i] = {
-                    ...arr[i], 
-                    'repo_name': evt.target.value
-                  };
-                  setEnumList(arr);
-                }}/>
-            </th>
-          <th>
-            <input 
-              placeholder='File extension after .' 
-              onChange={(evt)=>{
-                  let arr = [...enumList];
-                  arr[i] = {
-                    ...arr[i], 
-                    'file_extension': evt.target.value
-                  };
-                  setEnumList(arr);
-                }}/>
-            </th>
-        </tr> 
-      )
-    }
-    return arr;
   }
 
   return (
@@ -96,18 +52,6 @@ const Home: NextPage = () => {
                 setEnumName(evt.target.value);
               }}/>
           </div>
-          
-          {/* <div style={{margin:20}}>
-            <table>
-              <tbody>
-                {renderEnums()}
-              </tbody>
-            </table>
-            <button 
-              onClick={()=>{setEnumLength(enumLength+1)}}>
-              add repo
-            </button>
-          </div> */}
 
           <div style={{margin:20}}>
             <label>Your query: </label>
@@ -118,9 +62,7 @@ const Home: NextPage = () => {
                 setQuery(evt.target.value);
               }}/>
           </div>
-
           
-
           <div style={{marginLeft: 20, marginTop:50}}>
             <button onClick={()=>{onSubmitClicked()}}>submit</button>
           </div>
