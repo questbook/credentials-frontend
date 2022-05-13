@@ -1,9 +1,8 @@
-import type { NextPage } from 'next';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
-const Home: NextPage = () => {
+const Home = () => {
 
   const [accessToken, setAccessToken] = useState('');
   const [enumName, setEnumName] = useState('');
