@@ -6,7 +6,8 @@ const Home = () => {
 
   const [accessToken, setAccessToken] = useState('');
   const [enumName, setEnumName] = useState('');
-  const [query, setQuery] = useState('');
+  const [githubQuery, setgithubQuery] = useState('');
+  const [nftQuery, setNftQuery] = useState('');
 
   const githubRedirectURL = `${process.env.NEXT_PUBLIC_API_URL}/github/auth/callback`;
   const path = '/';
@@ -22,15 +23,22 @@ const Home = () => {
   const onSubmitClicked = () =>{
     const data = {
        enumName,
-      query
+      githubQuery
     };
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': accessToken
     }
-    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create`,data, {headers})
+    if(githubQuery){
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create`,data, {headers})
       .then(res=>{console.log(res.data); alert("list created!")})
       .catch(err => {console.log(err)});
+    }
+    if(nftQuery){
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create-erc721-list`,{enumName, nftQuery}, {headers})
+      .then(res=>{console.log(res.data); alert("list created!")})
+      .catch(err => {console.log(err)});
+    }
   }
 
   return (
@@ -53,12 +61,22 @@ const Home = () => {
           </div>
 
           <div style={{margin:20}}>
-            <label>Your query: </label>
+            <label>Your githubQuery: </label>
             <input 
               style={{width: '1000px'}}
-              placeholder='query for the list'
+              placeholder='Github query for the list'
               onChange={(evt)=>{
-                setQuery(evt.target.value);
+                setgithubQuery(evt.target.value);
+              }}/>
+          </div>
+
+          <div style={{margin:20}}>
+            <label>Your ERC721 query: </label>
+            <input 
+              style={{width: '1000px'}}
+              placeholder='ERC721 query for the list'
+              onChange={(evt)=>{
+                setNftQuery(evt.target.value);
               }}/>
           </div>
           
