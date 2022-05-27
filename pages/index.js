@@ -34,7 +34,7 @@ const Home = () => {
       if(githubQuery){
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create`,data, {headers})
         .then(res=>{
-          if(res.data.result.error){
+          if(res.data?.result?.error){
             alert('error: '+res.data.result.error)
           }else{
             alert("list created!")
@@ -45,7 +45,7 @@ const Home = () => {
       if(nftQuery){
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create-erc721-list`,{enumName, nftQuery}, {headers})
         .then(res=>{
-          if(res.data.result.error){
+          if(res.data?.result?.error){
             alert('error: '+res.data.result.error)
           }else{
             alert("list created!")
@@ -56,7 +56,7 @@ const Home = () => {
       if(stackoverflowQuery){
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/stackoverflow/create`,{enumName, stackoverflowQuery}, {headers})
         .then(res=>{
-          if(res.data.result.error){
+          if(res.data?.result?.error){
             alert('error: '+res.data.result.error)
           }else{
             alert("list created!")
