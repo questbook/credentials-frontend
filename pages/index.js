@@ -8,6 +8,7 @@ const Home = () => {
   const [enumName, setEnumName] = useState('');
   const [githubQuery, setgithubQuery] = useState('');
   const [nftQuery, setNftQuery] = useState('');
+  const [stackoverflowQuery, setStackoverflowQuery] = useState('');
 
   const githubRedirectURL = `${process.env.NEXT_PUBLIC_API_URL}/github/auth/callback`;
   const path = '/';
@@ -29,16 +30,44 @@ const Home = () => {
       'Content-Type': 'application/json',
       'Authorization': accessToken
     }
-    if(githubQuery){
-      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create`,data, {headers})
-      .then(res=>{console.log(res.data); alert("list created!")})
-      .catch(err => {console.log(err)});
+    if(enumName){
+      if(githubQuery){
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create`,data, {headers})
+        .then(res=>{
+          if(res.data.result.error){
+            alert('error: '+res.data.result.error)
+          }else{
+            alert("list created!")
+          }
+        })
+        .catch(err => {console.log(err)});
+      }
+      if(nftQuery){
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create-erc721-list`,{enumName, nftQuery}, {headers})
+        .then(res=>{
+          if(res.data.result.error){
+            alert('error: '+res.data.result.error)
+          }else{
+            alert("list created!")
+          }
+        })
+        .catch(err => {console.log(err)});
+      }
+      if(stackoverflowQuery){
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/stackoverflow/create`,{enumName, stackoverflowQuery}, {headers})
+        .then(res=>{
+          if(res.data.result.error){
+            alert('error: '+res.data.result.error)
+          }else{
+            alert("list created!")
+          }
+        })
+        .catch(err => {console.log(err)});
+      }
+    }else{
+      alert('please enter the list name');
     }
-    if(nftQuery){
-      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create-erc721-list`,{enumName, nftQuery}, {headers})
-      .then(res=>{console.log(res.data); alert("list created!")})
-      .catch(err => {console.log(err)});
-    }
+    
   }
 
   return (
@@ -77,6 +106,16 @@ const Home = () => {
               placeholder='ERC721 query for the list'
               onChange={(evt)=>{
                 setNftQuery(evt.target.value);
+              }}/>
+          </div>
+
+          <div style={{margin:20}}>
+            <label>Your Stackoverflow query: </label>
+            <input 
+              style={{width: '1000px'}}
+              placeholder='Stackoverflow query for the list'
+              onChange={(evt)=>{
+                setStackoverflowQuery(evt.target.value);
               }}/>
           </div>
           
