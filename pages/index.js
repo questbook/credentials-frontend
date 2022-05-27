@@ -9,6 +9,7 @@ const Home = () => {
   const [githubQuery, setgithubQuery] = useState('');
   const [nftQuery, setNftQuery] = useState('');
   const [stackoverflowQuery, setStackoverflowQuery] = useState('');
+  const [credentials, setCredentials] = useState('');
 
   const githubRedirectURL = `${process.env.NEXT_PUBLIC_API_URL}/github/auth/callback`;
   const path = '/';
@@ -31,7 +32,7 @@ const Home = () => {
       'Authorization': accessToken
     }
     if(enumName){
-      if(githubQuery){
+      if(credentials==='github' && githubQuery){
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create`,data, {headers})
         .then(res=>{
           if(res.data?.result?.error){
@@ -42,7 +43,7 @@ const Home = () => {
         })
         .catch(err => {console.log(err)});
       }
-      if(nftQuery){
+      if(credentials ==='erc721' && nftQuery){
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/create-erc721-list`,{enumName, nftQuery}, {headers})
         .then(res=>{
           if(res.data?.result?.error){
@@ -53,7 +54,7 @@ const Home = () => {
         })
         .catch(err => {console.log(err)});
       }
-      if(stackoverflowQuery){
+      if(credentials=== 'stackoverflow' && stackoverflowQuery){
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/list/stackoverflow/create`,{enumName, stackoverflowQuery}, {headers})
         .then(res=>{
           if(res.data?.result?.error){
@@ -67,7 +68,6 @@ const Home = () => {
     }else{
       alert('please enter the list name');
     }
-    
   }
 
   return (
@@ -79,6 +79,7 @@ const Home = () => {
         <button>Authorise Github</button>
       </a>:
       <div>
+        
         <div>
           <div style={{margin:20}}>
             <label>Your list name: </label>
@@ -89,7 +90,14 @@ const Home = () => {
               }}/>
           </div>
 
-          <div style={{margin:20}}>
+          <div style={{margin:20}} onChange={(evt)=>{setCredentials(evt.target.value);}}>
+            <input type="radio" value="github" name="credentials" /> github
+            <input type="radio" value="erc721" name="credentials" /> erc721
+            <input type="radio" value="stackoverflow" name="credentials" /> stackoverflow
+            <input type="radio" value="erc20" name="credentials" /> erc20 (WIP)
+          </div>
+
+          {credentials==='github' && <div style={{margin:20}}>
             <label>Your githubQuery: </label>
             <input 
               style={{width: '1000px'}}
@@ -97,9 +105,9 @@ const Home = () => {
               onChange={(evt)=>{
                 setgithubQuery(evt.target.value);
               }}/>
-          </div>
+          </div>}
 
-          <div style={{margin:20}}>
+          {credentials ==='erc721' && <div style={{margin:20}}>
             <label>Your ERC721 query: </label>
             <input 
               style={{width: '1000px'}}
@@ -107,9 +115,9 @@ const Home = () => {
               onChange={(evt)=>{
                 setNftQuery(evt.target.value);
               }}/>
-          </div>
+          </div>}
 
-          <div style={{margin:20}}>
+          {credentials=== 'stackoverflow' && <div style={{margin:20}}>
             <label>Your Stackoverflow query: </label>
             <input 
               style={{width: '1000px'}}
@@ -117,7 +125,11 @@ const Home = () => {
               onChange={(evt)=>{
                 setStackoverflowQuery(evt.target.value);
               }}/>
-          </div>
+          </div>}
+
+          {credentials ==='erc20' && <div style={{margin:20}}>
+            Waiting for the subgraph to finish indexing
+            </div>}
           
           <div style={{marginLeft: 20, marginTop:50}}>
             <button onClick={()=>{onSubmitClicked()}}>submit</button>
